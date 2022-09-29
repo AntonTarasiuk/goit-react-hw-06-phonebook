@@ -1,20 +1,17 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux/es/exports";
+import { useSelector } from "react-redux/es/exports";
 import { filteredValue } from "redux/contactsSlice";
 import { nanoid } from "nanoid";
 import { Label } from "./Filter.styled";
 
 export const Filter = () => {
-const [filter, setFilter] = useState('');
+    const filterValueFromStore = useSelector(state => state.contacts.filter);
 
     const inputSearchId = nanoid();
-
     const dispatch = useDispatch();
 
     const handleFilter = (event) => {
         const { value } = event.currentTarget;
-        setFilter(value);
-
         dispatch(filteredValue(value.toLocaleLowerCase()));
     }
 
@@ -28,7 +25,7 @@ const [filter, setFilter] = useState('');
                 id={inputSearchId}
                 type="text" 
                 name="filter"
-                value={filter}
+                value={filterValueFromStore}
                 onChange={handleFilter}
             />
         </>
